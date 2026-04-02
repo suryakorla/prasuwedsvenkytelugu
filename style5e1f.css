@@ -1,0 +1,579 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: url("images/bg.png") no-repeat center center fixed;
+  background-size: cover;
+  overflow-x: hidden;
+}
+
+.wedding {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 80px;
+  position: relative;
+  /* important */
+}
+
+/* Petals image */
+.wedding img {
+  position: absolute;
+  top: -100px;
+  /* adjust this */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  /* adjust as needed */
+  z-index: 2;
+  /* above title */
+  pointer-events: none;
+  animation: petalsReveal 4s ease forwards,
+    petalsFloat 6s ease-in-out 4s infinite;
+}
+
+@media (min-width: 375px) {
+  .wedding img {
+    width: 378px;
+  }
+}
+
+@media (min-width: 425px) {
+  .wedding img {
+    width: 427px;
+  }
+
+}
+
+
+/* Title */
+.title {
+  font-family: "Georgia", serif;
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  /* below petals */
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeSlideUp 2s ease forwards;
+  color: #ffffff;
+}
+
+
+@keyframes fadeSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.temple-wrapper {
+  width: 100%;
+  height: 299rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.temple {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200%;
+  /* wider like before */
+  height: auto;
+}
+
+/* Medium screens */
+@media (min-width: 768px) {
+  .temple {
+    transform: translateX(-50%) scale(1.4);
+  }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+  .temple {
+    transform: translateX(-50%) scale(1.6);
+  }
+}
+
+/* Ultra wide */
+@media (min-width: 1600px) {
+  .temple {
+    transform: translateX(-50%) scale(1.8);
+  }
+}
+
+@keyframes petalsReveal {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-80px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0px);
+  }
+}
+
+@keyframes petalsFloat {
+  0% {
+    transform: translateX(-50%) translateY(0px);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(10px);
+  }
+
+  100% {
+    transform: translateX(-50%) translateY(0px);
+  }
+}
+
+.weds {
+  color: #ffffff;
+  font-family: "Georgia", serif;
+  font-weight: 500;
+}
+
+.section-2 {
+  position: relative;
+}
+
+.section-3 {
+  position: absolute;
+  bottom: -3000px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-top: 300px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 5;
+  /* above temple */
+  display: flex;
+  flex-direction: column;
+
+}
+
+
+@media (min-width:425px) {
+  .section-3 {
+    bottom: -3000px;
+  }
+}
+
+.ganesha {
+  font-size: 16px;
+  margin-bottom: 30px;
+  color: white;
+  font-weight: 300;
+  text-align: center;
+}
+
+.blessing {
+  font-size: 16px;
+  margin: 20px 0;
+  line-height: 1.6;
+  color: white;
+  text-align: center;
+  padding: 0 30px;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.vinayagan {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ganesh {
+  width: 100px;
+  height: auto;
+}
+
+.invite-title {
+  font-family: 'Cinzel', serif;
+  font-size: 70px;
+  letter-spacing: 4px;
+  margin: 40px 0 20px;
+  color: white;
+  text-align: center;
+}
+
+.footer-text {
+  font-size: 16px;
+  margin-top: 15px;
+  color: white;
+  padding: 0 20px;
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.divider {
+  width: 60px;
+  height: 2px;
+  background: white;
+  margin: 25px auto;
+}
+
+.name {
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 1.1;
+  text-align: center;
+  color: white !important;
+}
+
+.and {
+  font-size: 28px;
+  margin: 10px 0;
+  color: white !important;
+  text-align: center;
+}
+
+.sub-text {
+  font-size: 14px;
+  margin-top: 50px;
+  font-weight: 400;
+  color: white;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+}
+
+.parent-text {
+  font-size: 16px;
+  margin-top: 8px;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+}
+
+/* Wedding Details Section */
+
+.section-4 {
+  padding: 120px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.venue-container {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.venue-title {
+  font-size: 42px;
+  margin-bottom: 60px;
+  font-family: 'Cinzel', serif;
+  color: white;
+  letter-spacing: 4px;
+}
+
+.venue-card {
+  padding: 60px 40px;
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.event-block {
+  margin-bottom: 40px;
+  color: white;
+  font-family: 'Cinzel', serif;
+}
+
+.event-block h3 {
+  font-size: 26px;
+  margin-bottom: 15px;
+  font-family: 'Cinzel', serif;
+}
+
+.event-block p {
+  font-size: 16px;
+  margin: 6px 0;
+}
+
+.venue-address {
+  line-height: 1.7;
+}
+
+.map-btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 12px 28px;
+  background: white;
+  color: black;
+  text-decoration: none;
+  border-radius: 40px;
+  font-size: 15px;
+  transition: 0.3s ease;
+}
+
+.map-btn:hover {
+  background: #ddd;
+}
+
+.temple2 {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  /* wider like before */
+  height: auto;
+}
+
+.countdown-section {
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.temple2 {
+  width: 100%;
+  display: block;
+}
+
+.countdown-overlay {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 90%;
+  /* 👈 ADD THIS */
+  max-width: 700px;
+  /* 👈 optional for large screens */
+
+  padding: 15px 30px;
+  border-radius: 10px;
+  color: #fff;
+  font-family: 'Cinzel', serif;
+}
+
+.countdown-overlay h2 {
+  margin-bottom: 15px;
+  font-size: 30px;
+  letter-spacing: 2px;
+  font-family: 'Cinzel', serif;
+  color: #ffffff;
+  padding: 16px;
+}
+
+#countdown {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  font-family: 'Cinzel';
+}
+
+.countdown-para {
+  width: 100%;
+  /* 👈 fill parent */
+  color: #ffffff;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  /* slightly bigger */
+  line-height: 1.8;
+  text-align: center;
+}
+
+/* ===== PHOTO SLIDER ===== */
+.photo-slider {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  margin: 80px auto 0;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+  will-change: transform;
+}
+
+.slide {
+  min-width: 100%;
+  position: relative;
+}
+
+.slide img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.slide-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 18px 20px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
+  color: #fff;
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-align: center;
+  pointer-events: none;
+}
+
+
+
+/* Dot indicators */
+.slider-dots {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.dot.active {
+  background: #ffffff;
+  transform: scale(1.3);
+}
+
+/* ========================= */
+
+/* --- LOADER STYLES --- */
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0b0b0b;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.loader-rings {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.loader-rings div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+
+.loader-rings div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+
+.loader-rings div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.loader-rings div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader-text {
+  margin-top: 15px;
+  color: #ffffff;
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  letter-spacing: 3px;
+  animation: fadePulse 1.5s infinite ease-in-out;
+}
+
+@keyframes fadePulse {
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.hidden-content {
+  display: none !important;
+}
+
+.visible-content {
+  display: block !important;
+  animation: revealContent 1.5s forwards ease-in-out;
+}
+
+@keyframes revealContent {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
