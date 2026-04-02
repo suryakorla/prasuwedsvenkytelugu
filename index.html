@@ -205,32 +205,55 @@
 <script>
   const music = document.getElementById("bg-music");
 
-  window.addEventListener("load", () => {
-    const playPromise = music.play();
-
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        document.addEventListener("click", startMusicOnce);
-        document.addEventListener("touchstart", startMusicOnce);
-        document.addEventListener("scroll", startMusicOnce);
-      });
-    }
-  });
-
-  function startMusicOnce() {
-    music.play();
-    document.removeEventListener("click", startMusicOnce);
-    document.removeEventListener("touchstart", startMusicOnce);
-    document.removeEventListener("scroll", startMusicOnce);
+  function startMusic() {
+    music.play().then(() => {
+      // Once playing, we can remove all interaction listeners
+      cleanupListeners();
+    }).catch(error => {
+      console.log("Autoplay blocked, waiting for user interaction");
+    });
   }
 
-  // Pause music when the user switches tabs or minimizes the browser
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
+  function startMusicOnce() {
+    startMusic();
+  }
+
+  function cleanupListeners() {
+    document.removeEventListener("click", startMusicOnce);
+    document.removeEventListener("touchstart", startMusicOnce);
+    document.removeEventListener("touchend", startMusicOnce);
+    document.removeEventListener("pointerdown", startMusicOnce);
+    document.removeEventListener("keydown", startMusicOnce);
+  }
+
+  // Initial attempt on load
+  window.addEventListener("load", () => {
+    startMusic();
+    // If blocked, listen for any interaction
+    document.addEventListener("click", startMusicOnce);
+    document.addEventListener("touchstart", startMusicOnce);
+    document.addEventListener("touchend", startMusicOnce);
+    document.addEventListener("pointerdown", startMusicOnce);
+    document.addEventListener("keydown", startMusicOnce);
+  });
+
+  // Handle background/foreground switching comprehensively
+  const handleVisibilityChange = () => {
+    if (document.hidden || document.visibilityState === 'hidden') {
       music.pause();
     } else {
-      music.play().catch(() => {});
+      // Small delay to ensure browser acknowledges the return
+      setTimeout(() => {
+        music.play().catch(() => {});
+      }, 100);
     }
+  };
+
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+  window.addEventListener("pagehide", () => music.pause());
+  window.addEventListener("blur", () => music.pause());
+  window.addEventListener("focus", () => {
+    music.play().catch(() => {});
   });
 
   const weddingDate = new Date("April 10, 2026 20:13:00").getTime();
