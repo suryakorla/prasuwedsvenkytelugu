@@ -207,37 +207,30 @@
   const music = document.getElementById("bg-music");
   let audioUnlocked = false;
 
-  function tryUnlock() {
-    if (audioUnlocked) return;
+  const startMusic = () => {
+    if (!audioUnlocked) {
+      // Help Android Chrome: Resume AudioContext on any gesture
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (AudioContext) {
+        const bridge = new AudioContext();
+        if (bridge.state === 'suspended') bridge.resume();
+      }
 
-    // Help Android Chrome: Resume AudioContext on any gesture
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (AudioContext) {
-      const bridge = new AudioContext();
-      if (bridge.state === 'suspended') bridge.resume();
+      music.play().then(() => {
+        audioUnlocked = true;
+      }).catch(e => console.log("Audio play failed:", e));
     }
+  };
 
-    music.play().then(() => {
-      audioUnlocked = true;
-      cleanup();
-    }).catch(() => { });
-  }
+  // 🔥 Trigger on scroll/touch as requested
+  document.addEventListener("touchstart", startMusic, { once: true });
+  document.addEventListener("wheel", startMusic, { once: true });
+  // Also keep click and mousedown for completeness
+  document.addEventListener("click", startMusic, { once: true });
+  document.addEventListener("mousedown", startMusic, { once: true });
 
-  function cleanup() {
-    window.removeEventListener('click', tryUnlock, true);
-    window.removeEventListener('touchstart', tryUnlock, true);
-    window.removeEventListener('touchmove', tryUnlock, true);
-    window.removeEventListener('mousedown', tryUnlock, true);
-  }
-
-  // Bind to every possible early interaction
-  window.addEventListener('click', tryUnlock, true);
-  window.addEventListener('touchstart', tryUnlock, true);
-  window.addEventListener('touchmove', tryUnlock, true);
-  window.addEventListener('mousedown', tryUnlock, true);
-
-  // Still attempt page load play (works on some browsers/iOS)
-  window.addEventListener('load', tryUnlock);
+  // Still attempt page load play
+  window.addEventListener('load', startMusic);
 
   // Tabs/Apps switching logic
   const handleVisible = () => {
@@ -291,7 +284,7 @@
         mainContent.classList.remove('hidden-content');
         mainContent.classList.add('visible-content');
         // Start music when loader is done
-        tryUnlock();
+        startMusic();
       }, 800);
     }, 1500);
   });
