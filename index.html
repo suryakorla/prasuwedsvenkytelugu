@@ -204,60 +204,55 @@
 
 <script>
   const music = document.getElementById("bg-music");
+  let audioUnlocked = false;
 
-  function startMusic() {
-    if (music.paused) {
-      music.play().then(() => {
-        cleanupListeners();
-      }).catch(() => {
-        // Still blocked, listener will catch next interaction
-      });
+  function tryUnlock() {
+    if (audioUnlocked) return;
+
+    // Help Android Chrome: Resume AudioContext on any gesture
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) {
+      const bridge = new AudioContext();
+      if (bridge.state === 'suspended') bridge.resume();
     }
+
+    music.play().then(() => {
+      audioUnlocked = true;
+      cleanup();
+    }).catch(() => {});
   }
 
-  function startMusicOnce() {
-    startMusic();
+  function cleanup() {
+    window.removeEventListener('click', tryUnlock, true);
+    window.removeEventListener('touchstart', tryUnlock, true);
+    window.removeEventListener('touchmove', tryUnlock, true);
+    window.removeEventListener('mousedown', tryUnlock, true);
   }
 
-  function cleanupListeners() {
-    window.removeEventListener("click", startMusicOnce);
-    window.removeEventListener("touchstart", startMusicOnce);
-    window.removeEventListener("touchend", startMusicOnce);
-    window.removeEventListener("touchmove", startMusicOnce);
-    window.removeEventListener("pointerdown", startMusicOnce);
-    window.removeEventListener("keydown", startMusicOnce);
-  }
+  // Bind to every possible early interaction
+  window.addEventListener('click', tryUnlock, true);
+  window.addEventListener('touchstart', tryUnlock, true);
+  window.addEventListener('touchmove', tryUnlock, true);
+  window.addEventListener('mousedown', tryUnlock, true);
 
-  // Set up listeners immediately so they work even before full page load
-  window.addEventListener("click", startMusicOnce, { capture: true });
-  window.addEventListener("touchstart", startMusicOnce, { capture: true });
-  window.addEventListener("touchend", startMusicOnce, { capture: true });
-  window.addEventListener("touchmove", startMusicOnce, { capture: true });
-  window.addEventListener("pointerdown", startMusicOnce, { capture: true });
-  window.addEventListener("keydown", startMusicOnce, { capture: true });
+  // Still attempt page load play (works on some browsers/iOS)
+  window.addEventListener('load', tryUnlock);
 
-  // Fallback: Try to play on load if possible
-  window.addEventListener("load", startMusic);
-
-  // Handle background/foreground switching comprehensively
-  const handleVisibilityChange = () => {
+  // Tabs/Apps switching logic
+  const handleVisible = () => {
     if (document.hidden || document.visibilityState === 'hidden') {
       music.pause();
-    } else {
-      // Small delay helps Android browsers resume cleanly
+    } else if (audioUnlocked) {
       setTimeout(() => {
-        music.play().catch(() => { });
-      }, 200);
+        music.play().catch(() => {});
+      }, 300);
     }
   };
 
-  document.addEventListener("visibilitychange", handleVisibilityChange);
+  document.addEventListener("visibilitychange", handleVisible);
   window.addEventListener("pagehide", () => music.pause());
   window.addEventListener("blur", () => music.pause());
-  window.addEventListener("focus", () => {
-    // Only attempt to resume if it was already playing before
-    music.play().catch(() => { });
-  });
+  window.addEventListener("focus", handleVisible);
 
   const weddingDate = new Date("April 10, 2026 20:13:00").getTime();
 
