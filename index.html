@@ -18,7 +18,23 @@
       font-weight: normal;
       font-style: normal;
     }
-    body, .ganesha, .blessing, .invite-title, .footer-text, .name, .and, .sub-text, .parent-text, .venue-title, .event-block h3, .venue-address, .map-btn, .countdown-overlay h2, .countdown-para, .loader-text {
+
+    body,
+    .ganesha,
+    .blessing,
+    .invite-title,
+    .footer-text,
+    .name,
+    .and,
+    .sub-text,
+    .parent-text,
+    .venue-title,
+    .event-block h3,
+    .venue-address,
+    .map-btn,
+    .countdown-overlay h2,
+    .countdown-para,
+    .loader-text {
       font-family: 'AnuTelugu', 'Noto Sans Telugu', 'Vani', 'Gautami', Arial, sans-serif !important;
       letter-spacing: 0.5px;
     }
@@ -26,6 +42,10 @@
 </head>
 
 <body>
+
+  <audio id="bg-music" loop>
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
 
   <!-- LOADER -->
   <div id="loader">
@@ -71,7 +91,7 @@
 
         <div class="blessing">
           శ్రీ అయితిరెడ్డి సత్యనారాయణ గారు (లేట్) & శ్రీమతి సత్యనారాయణమ్మ <br />
-          ఆశీర్వాదములతో 
+          ఆశీర్వాదములతో
         </div>
 
         <div class="divider"></div>
@@ -162,7 +182,8 @@
           <h2>వివాహానికి మిగిలిన సమయం</h2>
           <div id="countdown"></div>
           <p class="countdown-para">
-            మా జీవితంలో చాలా ఆనందమైన రోజు అయిన ఈ వేడుకను మీరు వచ్చి మాతో కలిసి జరుపుకోవడం మా కుటుంబాలకు ఎంతో ఆనందంగా ఉంది.
+            మా జీవితంలో చాలా ఆనందమైన రోజు అయిన ఈ వేడుకను మీరు వచ్చి మాతో కలిసి జరుపుకోవడం మా కుటుంబాలకు ఎంతో ఆనందంగా
+            ఉంది.
           </p>
           <img src="images/moon.png" height="150px" style="margin-top: 60px;">
         </div>
@@ -182,6 +203,27 @@
 </html>
 
 <script>
+  const music = document.getElementById("bg-music");
+
+  window.addEventListener("load", () => {
+    const playPromise = music.play();
+
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        document.addEventListener("click", startMusicOnce);
+        document.addEventListener("touchstart", startMusicOnce);
+        document.addEventListener("scroll", startMusicOnce);
+      });
+    }
+  });
+
+  function startMusicOnce() {
+    music.play();
+    document.removeEventListener("click", startMusicOnce);
+    document.removeEventListener("touchstart", startMusicOnce);
+    document.removeEventListener("scroll", startMusicOnce);
+  }
+
   const weddingDate = new Date("April 10, 2026 20:13:00").getTime();
 
   const countdownFunction = setInterval(function () {
