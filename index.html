@@ -224,6 +224,15 @@
     document.removeEventListener("scroll", startMusicOnce);
   }
 
+  // Pause music when the user switches tabs or minimizes the browser
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      music.pause();
+    } else {
+      music.play().catch(() => {});
+    }
+  });
+
   const weddingDate = new Date("April 10, 2026 20:13:00").getTime();
 
   const countdownFunction = setInterval(function () {
