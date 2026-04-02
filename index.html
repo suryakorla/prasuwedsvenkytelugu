@@ -43,7 +43,7 @@
 
 <body>
 
-  <audio id="bg-music" autoplay loop muted>
+  <audio id="bg-music" loop>
     <source src="song.mp3" type="audio/mpeg">
   </audio>
 
@@ -206,11 +206,6 @@
 <script>
   const music = document.getElementById("bg-music");
   let audioUnlocked = false;
-
-  window.addEventListener("scroll", () => {
-    const music = document.getElementById("bg-music");
-    music.muted = false;
-  });
 
   function tryUnlock() {
     if (audioUnlocked) return;
