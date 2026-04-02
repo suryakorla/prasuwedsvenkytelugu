@@ -577,3 +577,60 @@ body {
     opacity: 1;
   }
 }
+
+/* --- AUDIO MODAL --- */
+#audio-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: opacity 0.8s ease;
+}
+
+.modal-content {
+  text-align: center;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.modal-btn {
+  padding: 15px 40px;
+  font-size: 18px;
+  font-family: 'Cinzel', serif;
+  background: #ffffff;
+  color: #000000;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, background 0.3s ease;
+  margin-top: 20px;
+}
+
+.modal-btn:hover {
+  transform: scale(1.05);
+  background: #f0f0f0;
+}
+
+.blur-effect {
+  filter: blur(15px);
+  -webkit-filter: blur(15px);
+  transition: filter 1s ease;
+}
+
+.no-blur {
+  filter: blur(0) !important;
+  -webkit-filter: blur(0) !important;
+}

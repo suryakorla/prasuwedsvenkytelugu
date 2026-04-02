@@ -58,7 +58,7 @@
     <p class="loader-text">ప్రసు వెడ్స్ వెంకీ</p>
   </div>
 
-  <div id="main-content" class="hidden-content">
+  <div id="main-content" class="hidden-content blur-effect">
 
     <!-- SECTION 1 -->
     <div class="section-1">
@@ -196,6 +196,14 @@
 
   </div> <!-- End #main-content -->
 
+  <!-- AUDIO MODAL -->
+  <div id="audio-modal">
+    <div class="modal-content">
+      <p class="loader-text" style="margin-bottom: 20px;">వివాహ ఆహ్వానం సిద్ధంగా ఉంది</p>
+      <button id="open-invitation" class="modal-btn">ఓపెన్ చేయండి (Open)</button>
+    </div>
+  </div>
+
 </body>
 
 
@@ -205,12 +213,13 @@
 
 <script>
   const music = document.getElementById("bg-music");
+  const audioModal = document.getElementById("audio-modal");
+  const openBtn = document.getElementById("open-invitation");
+  const mainContent = document.getElementById("main-content");
   let audioUnlocked = false;
 
-  function tryUnlock() {
-    if (audioUnlocked) return;
-
-    // Help Android Chrome: Resume AudioContext on any gesture
+  function handleOpen() {
+    // Resume AudioContext for Android Chrome
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     if (AudioContext) {
       const bridge = new AudioContext();
@@ -219,25 +228,22 @@
 
     music.play().then(() => {
       audioUnlocked = true;
-      cleanup();
-    }).catch(() => { });
+    }).catch(() => {
+      console.log("Audio failed to start immediately");
+    });
+
+    // Hide modal and remove blur
+    audioModal.style.opacity = '0';
+    setTimeout(() => {
+      audioModal.style.display = 'none';
+      mainContent.classList.remove('blur-effect');
+      mainContent.classList.add('no-blur');
+    }, 800);
   }
 
-  function cleanup() {
-    window.removeEventListener('click', tryUnlock, true);
-    window.removeEventListener('touchstart', tryUnlock, true);
-    window.removeEventListener('touchmove', tryUnlock, true);
-    window.removeEventListener('mousedown', tryUnlock, true);
+  if (openBtn) {
+    openBtn.addEventListener("click", handleOpen);
   }
-
-  // Bind to every possible early interaction
-  window.addEventListener('click', tryUnlock, true);
-  window.addEventListener('touchstart', tryUnlock, true);
-  window.addEventListener('touchmove', tryUnlock, true);
-  window.addEventListener('mousedown', tryUnlock, true);
-
-  // Still attempt page load play (works on some browsers/iOS)
-  window.addEventListener('load', tryUnlock);
 
   // Tabs/Apps switching logic
   const handleVisible = () => {
@@ -281,7 +287,6 @@
   window.addEventListener('load', function () {
     setTimeout(function () {
       const loader = document.getElementById('loader');
-      const mainContent = document.getElementById('main-content');
 
       loader.style.opacity = '0';
       loader.style.transition = 'opacity 0.8s ease';
@@ -290,8 +295,14 @@
         loader.style.display = 'none';
         mainContent.classList.remove('hidden-content');
         mainContent.classList.add('visible-content');
-        // Start music when loader is done
-        tryUnlock();
+
+        // Show the audio modal after loader is gone
+        setTimeout(() => {
+          audioModal.style.display = 'flex';
+          setTimeout(() => {
+            audioModal.style.opacity = '1';
+          }, 50);
+        }, 100);
       }, 800);
     }, 1500);
   });
