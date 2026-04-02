@@ -90,7 +90,8 @@
         </div>
 
         <div class="blessing">
-          శ్రీ అయితిరెడ్డి సత్యనారాయణ గారు (లేటు) & శ్రీమతి సత్యనారాయణమ్మ <br />
+          శ్రీ అయితిరెడ్డి సత్యనారాయణ గారు (లేటు) & <br />
+          శ్రీమతి సత్యనారాయణమ్మ <br />
           ఆశీర్వాదములతో
         </div>
 
@@ -112,7 +113,7 @@
         </div>
         <div class="sub-text">వెంకట్ - S/O</div>
         <div class="parent-text">
-          శ్రీ కర్ర రామకృష్ణ & శ్రీమతి రాధ
+          శ్రీ కర్రా రామకృష్ణ & శ్రీమతి రాధ
         </div>
         <div class="divider"></div>
       </div>
@@ -144,7 +145,7 @@
             <div class="event-block">
               <h3>వేదిక</h3>
               <p class="venue-address">
-                మార్గాని శేషయ్య సవిత్రమ్మ కన్వెన్షన్ <br>
+                మార్గాని శేషయ్య సావిత్రమ్మ కన్వెన్షన్ <br>
                 NH-16, కడియపులంక
               </p>
 
@@ -219,7 +220,7 @@
     music.play().then(() => {
       audioUnlocked = true;
       cleanup();
-    }).catch(() => {});
+    }).catch(() => { });
   }
 
   function cleanup() {
@@ -244,7 +245,7 @@
       music.pause();
     } else if (audioUnlocked) {
       setTimeout(() => {
-        music.play().catch(() => {});
+        music.play().catch(() => { });
       }, 300);
     }
   };
@@ -289,6 +290,8 @@
         loader.style.display = 'none';
         mainContent.classList.remove('hidden-content');
         mainContent.classList.add('visible-content');
+        // Start music when loader is done
+        tryUnlock();
       }, 800);
     }, 1500);
   });
