@@ -90,7 +90,7 @@
         </div>
 
         <div class="blessing">
-          శ్రీ అయితిరెడ్డి సత్యనారాయణ గారు (లేట్) & శ్రీమతి సత్యనారాయణమ్మ <br />
+          శ్రీ అయితిరెడ్డి సత్యనారాయణ గారు (లేటు) & శ్రీమతి సత్యనారాయణమ్మ <br />
           ఆశీర్వాదములతో
         </div>
 
@@ -206,12 +206,13 @@
   const music = document.getElementById("bg-music");
 
   function startMusic() {
-    music.play().then(() => {
-      // Once playing, we can remove all interaction listeners
-      cleanupListeners();
-    }).catch(error => {
-      console.log("Autoplay blocked, waiting for user interaction");
-    });
+    if (music.paused) {
+      music.play().then(() => {
+        cleanupListeners();
+      }).catch(() => {
+        // Still blocked, listener will catch next interaction
+      });
+    }
   }
 
   function startMusicOnce() {
@@ -219,33 +220,34 @@
   }
 
   function cleanupListeners() {
-    document.removeEventListener("click", startMusicOnce);
-    document.removeEventListener("touchstart", startMusicOnce);
-    document.removeEventListener("touchend", startMusicOnce);
-    document.removeEventListener("pointerdown", startMusicOnce);
-    document.removeEventListener("keydown", startMusicOnce);
+    window.removeEventListener("click", startMusicOnce);
+    window.removeEventListener("touchstart", startMusicOnce);
+    window.removeEventListener("touchend", startMusicOnce);
+    window.removeEventListener("touchmove", startMusicOnce);
+    window.removeEventListener("pointerdown", startMusicOnce);
+    window.removeEventListener("keydown", startMusicOnce);
   }
 
-  // Initial attempt on load
-  window.addEventListener("load", () => {
-    startMusic();
-    // If blocked, listen for any interaction
-    document.addEventListener("click", startMusicOnce);
-    document.addEventListener("touchstart", startMusicOnce);
-    document.addEventListener("touchend", startMusicOnce);
-    document.addEventListener("pointerdown", startMusicOnce);
-    document.addEventListener("keydown", startMusicOnce);
-  });
+  // Set up listeners immediately so they work even before full page load
+  window.addEventListener("click", startMusicOnce, { capture: true });
+  window.addEventListener("touchstart", startMusicOnce, { capture: true });
+  window.addEventListener("touchend", startMusicOnce, { capture: true });
+  window.addEventListener("touchmove", startMusicOnce, { capture: true });
+  window.addEventListener("pointerdown", startMusicOnce, { capture: true });
+  window.addEventListener("keydown", startMusicOnce, { capture: true });
+
+  // Fallback: Try to play on load if possible
+  window.addEventListener("load", startMusic);
 
   // Handle background/foreground switching comprehensively
   const handleVisibilityChange = () => {
     if (document.hidden || document.visibilityState === 'hidden') {
       music.pause();
     } else {
-      // Small delay to ensure browser acknowledges the return
+      // Small delay helps Android browsers resume cleanly
       setTimeout(() => {
-        music.play().catch(() => {});
-      }, 100);
+        music.play().catch(() => { });
+      }, 200);
     }
   };
 
@@ -253,7 +255,8 @@
   window.addEventListener("pagehide", () => music.pause());
   window.addEventListener("blur", () => music.pause());
   window.addEventListener("focus", () => {
-    music.play().catch(() => {});
+    // Only attempt to resume if it was already playing before
+    music.play().catch(() => { });
   });
 
   const weddingDate = new Date("April 10, 2026 20:13:00").getTime();
